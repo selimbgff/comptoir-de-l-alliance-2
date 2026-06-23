@@ -1,0 +1,28 @@
+const catalog = [
+    { name: "Alliance Platine Classique", price: "1200 €", stripeLink: "#", img: "https://picsum.photos/seed/1/400/400?grayscale" },
+    { name: "Alliance Or Blanc Diamant", price: "1500 €", stripeLink: "#", img: "https://picsum.photos/seed/2/400/400?grayscale" },
+    { name: "Alliance Or Rose Mate", price: "1100 €", stripeLink: "#", img: "https://picsum.photos/seed/3/400/400?grayscale" },
+    { name: "Alliance Fine Or Jaune", price: "950 €", stripeLink: "#", img: "https://picsum.photos/seed/4/400/400?grayscale" }
+];
+
+const grid = document.getElementById('catalog');
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const img = entry.target;
+            img.src = img.dataset.src;
+            observer.unobserve(img);
+        }
+    });
+});
+
+grid.innerHTML = catalog.map(item => `
+    <div class="product-card">
+        <img data-src="${item.img}" src="https://via.placeholder.com/400x400" alt="${item.name}">
+        <h3>${item.name}</h3>
+        <p>${item.price}</p>
+        <a href="${item.stripeLink}" class="btn">Commander</a>
+    </div>
+`).join('');
+
+document.querySelectorAll('img').forEach(img => observer.observe(img));
